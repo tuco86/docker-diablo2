@@ -1,0 +1,22 @@
+w_metadata python37 dlls \
+    title="Python interpreter 3.7.6" \
+    publisher="Python Software Foundaton" \
+    year="2020" \
+    media="download" \
+    file1="python-3.7.6-embed-win32.zip" \
+    installed_exe1=".wine/drive_c/Program Files/Python3.7/python.exe"
+
+load_python37()
+{
+    w_download https://www.python.org/ftp/python/3.7.6/python-3.7.6-embed-win32.zip e2257b87e2e1a131e5d2adf843887fdab5021f8d4d6d68d49691aa965650c3ab
+    w_try_unzip "$W_DRIVE_C/Program Files/Python3.7" "$W_CACHE/python37/python-3.7.6-embed-win32.zip"
+
+    # w_download https://www.python.org/ftp/python/3.7.6/python-3.7.6.exe d6cbecf7cc2a06008c3b44e76708a7a3a12cb7513aa309b59eb89b6536bdbd4b
+
+    # w_try_cd "$W_CACHE/$W_PACKAGE"
+    # w_try "$WINE" "$file1"
+    # w_try "$WINE" "$file1" /passive InstallAllUsers=1 PrependPath=1 Include_test=0
+    # w_try "$WINE" "/home/wineuser/.cache/winetricks/python37$file1" InstallAllUsers=1 PrependPath=1 Include_test=0 $W_UNATTENDED_SLASH_Q
+}
+
+# wine reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Sessions Manager\Environment" /v Path /t REG_EXPAND_SZ /d "%path%;$W_DRIVE_C\\Program Files\\Python3.7" /f

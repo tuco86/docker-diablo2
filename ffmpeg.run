@@ -1,0 +1,5 @@
+#!/usr/bin/execlineb -P
+
+with-contenv
+s6-envuidgid wineuser
+sh -c "ffmpeg -f x11grab -s 800x600 -draw_mouse 0 -i :1 -vcodec libx264 -preset ultrafast -tune zerolatency  -crf 16 -f mpegts tcp://192.168.0.101:2000 2>/dev/null 1>/dev/null; "

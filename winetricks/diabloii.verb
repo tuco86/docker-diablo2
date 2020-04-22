@@ -1,0 +1,88 @@
+w_metadata diabloii games \
+    title="Diablo II" \
+    publisher="Blizzard" \
+    year="2000" \
+    media="download" \
+    file1="D2-1.14b-Installer-enUS/Installer.exe" \
+    file2="D2LOD-1.14b-Installer-enUS/Installer.exe" \
+    file3="D2Patch_114d.exe" \
+    installed_exe1="$W_PROGRAMS_X86_WIN/Diablo II/Diablo II.exe"
+
+load_diabloii()
+{
+    # w_download http://ftp.blizzard.com/pub/diablo2/patches/PC/D2Patch_114d.exe eea16f314fc7b806eb797c39774fa7b36a080bda11f85a1bafae68c03e9e07d1
+
+    # w_try "${W_PROGRAMS_X86_UNIX}" "D2-1.14b-Installer-enUS/Installer.exe"
+    # w_try "${W_PROGRAMS_X86_UNIX}" "D2LOD-1.14b-Installer-enUS/Installer.exe"
+
+    # w_read_key
+
+    w_ahk_do "
+        SetWinDelay 1000
+        run "D2-1.14b-Installer-enUS/Installer.exe"
+        
+        winwait, Diablo II Installer
+        Sleep 500
+        send d
+
+        winwait, End User License Agreement
+        Sleep 3500
+        send {space}
+        
+        winwait, CD-Key:
+        Sleep 2000
+        send {Raw}$REG_NAME
+        send {Tab}{Raw}$D2_KEY
+        send {Tab}{space}
+
+        winwait, Installation Destination Directory
+        Sleep 1500
+        send {space}
+
+        Sleep 5000
+
+        winwait, Diablo II Installer
+        Sleep 2500
+        send {Esc}
+        Sleep 2500
+        send {Esc}
+    "
+
+    w_ahk_do "
+        Sleep 500
+        run "D2LOD-1.14b-Installer-enUS/Installer.exe"
+        
+        winwait, Diablo II - Lord of Destruction
+        Sleep 500
+        send i
+        Sleep 1000
+
+        winwait, End User License Agreement
+        Sleep 2500
+        send {space}
+        
+        winwait, CD-Key:
+        Sleep 1000
+        send {Raw}$REG_NAME
+        send {Tab}{Raw}$D2LOD_KEY
+        send {Tab}{space}
+
+        Sleep 5000
+
+        winwait, Diablo II - Lord of Destruction
+        Sleep 1500
+        send {Esc}
+        winwait, Diablo II - Lord of Destruction
+        Sleep 1500
+        send {Esc}
+    "
+
+    w_ahk_do "
+        Sleep 500
+        run "LODPatch_114d.exe"
+        
+        winwait, Blizzard Updater v2.72
+        Sleep 5000
+        send {enter}
+    "
+}

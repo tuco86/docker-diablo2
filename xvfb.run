@@ -1,0 +1,5 @@
+#!/usr/bin/execlineb -P
+
+with-contenv
+s6-envuidgid wineuser
+Xvfb :1 -screen 0 800x600x16 -nocursor
