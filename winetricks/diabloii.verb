@@ -10,7 +10,7 @@ w_metadata diabloii games \
 
 load_diabloii()
 {
-    # w_download http://ftp.blizzard.com/pub/diablo2/patches/PC/D2Patch_114d.exe eea16f314fc7b806eb797c39774fa7b36a080bda11f85a1bafae68c03e9e07d1
+    w_download http://ftp.blizzard.com/pub/diablo2exp/patches/PC/LODPatch_114d.exe 5ee5b6f09c338324db14ea3ec03a4b8a9b36e4eea249bb12f1fb592558d6434d
 
     # w_try "${W_PROGRAMS_X86_UNIX}" "D2-1.14b-Installer-enUS/Installer.exe"
     # w_try "${W_PROGRAMS_X86_UNIX}" "D2LOD-1.14b-Installer-enUS/Installer.exe"
@@ -79,7 +79,7 @@ load_diabloii()
 
     w_ahk_do "
         Sleep 500
-        run "LODPatch_114d.exe"
+        run "$W_CACHE/diabloii/LODPatch_114d.exe"
         
         winwait, Blizzard Updater v2.72
         Sleep 5000

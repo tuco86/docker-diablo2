@@ -106,12 +106,12 @@ RUN \
     && curl -sL https://dl.winehq.org/wine/wine-gecko/${GECKO_VER}/wine_gecko-${GECKO_VER}-x86_64.msi \
         -o /usr/share/wine/gecko/wine_gecko-${GECKO_VER}-x86_64.msi
 
-# install angr
-ENV \
-    PIP_NO_CACHE=true
+# # install angr
+# ENV \
+#     PIP_NO_CACHE=true
 
-RUN \
-    pip3 install z3-solver!=4.8.7.0 angr
+# RUN \
+#     pip3 install z3-solver!=4.8.7.0 angr
 
 # Create user and take ownership of files
 RUN groupadd -g 1010 wineuser \
@@ -120,23 +120,20 @@ RUN groupadd -g 1010 wineuser \
 
 WORKDIR /home/wineuser
 
-COPY --chown=wineuser:wineuser Downloader_Diablo2_enUS.exe /home/wineuser/Downloader_Diablo2_enUS.exe
-COPY --chown=wineuser:wineuser Downloader_Diablo2_Lord_of_Destruction_enUS.exe /home/wineuser/Downloader_Diablo2_Lord_of_Destruction_enUS.exe
+# COPY --chown=wineuser:wineuser Downloader_Diablo2_enUS.exe /home/wineuser/Downloader_Diablo2_enUS.exe
+# COPY --chown=wineuser:wineuser Downloader_Diablo2_Lord_of_Destruction_enUS.exe /home/wineuser/Downloader_Diablo2_Lord_of_Destruction_enUS.exe
 COPY --chown=wineuser:wineuser D2-1.14b-Installer-enUS/ /home/wineuser/D2-1.14b-Installer-enUS
 COPY --chown=wineuser:wineuser D2LOD-1.14b-Installer-enUS/ /home/wineuser/D2LOD-1.14b-Installer-enUS
-COPY --chown=wineuser:wineuser D2Patch_114d.exe /home/wineuser/D2Patch_114d.exe
-COPY --chown=wineuser:wineuser LODPatch_114d.exe /home/wineuser/LODPatch_114d.exe
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY index.html /usr/html/index.html
-COPY winetricks/diabloii.verb /home/wineuser/diabloii.verb
 COPY pulse-client.conf /etc/pulse/client.conf
-COPY entrypoint.sh /usr/bin/entrypoint
+COPY winetricks/diabloii.verb /home/wineuser/diabloii.verb
 
 ARG REG_NAME
 ARG D2_KEY
 ARG D2LOD_KEY
 
 # ENV DISPLAY=":99"
+
+# use this over :99 for connecting to XQuartz
 ENV DISPLAY="host.docker.internal:0"
 
 RUN \
@@ -153,16 +150,14 @@ RUN \
   && tar xzf /tmp/s6-overlay-amd64.tar.gz -C / --exclude="./bin" \
   && tar xzf /tmp/s6-overlay-amd64.tar.gz -C /usr ./bin
 
-# COPY xvfb.run /etc/services.d/xvfb/run
-# COPY ffmpeg.run /etc/services.d/ffmpeg/run
-# COPY nginx.run /etc/services.d/nginx/run
+COPY xvfb.run /etc/services.d/xvfb/run
+COPY ffmpeg.run /etc/services.d/ffmpeg/run
+COPY nginx.run /etc/services.d/nginx/run
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY index.html /usr/html/index.html
+COPY entrypoint.sh /usr/bin/entrypoint
 
-COPY tdbot/ /build/tdbot
-
-RUN \
-  cd /build/tdbot \
-  && make -j \
-  && ls -l
+RUN mkdir -p /var/lib/ts
 
 ENTRYPOINT [ "/init" ]
 
